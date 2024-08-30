@@ -10,23 +10,31 @@
 <body>
   <script>
     // Set the desired redirection URL
-    var redirectURL = "https://www.google.com/maps/place/Negru+Zi+-+coffee+%26+arts/@47.164747,27.5779719,46m/data=!3m1!1e3!4m8!3m7!1s0x40cafbd56e750b7d:0x555a9cae3bc2f74f!8m2!3d47.164747!4d27.5779719!9m1!1b1!16s%2Fg%2F11wb10_5ns?entry=ttu&g_ep=EgoyMDI0MDgyMC4xIKXMDSoASAFQAw%3D%3D";
+    //var redirectURL = "https://www.google.com/maps/place/Negru+Zi+-+coffee+%26+arts/@47.164747,27.5779719,46m/data=!3m1!1e3!4m8!3m7!1s0x40cafbd56e750b7d:0x555a9cae3bc2f74f!8m2!3d47.164747!4d27.5779719!9m1!1b1!16s%2Fg%2F11wb10_5ns?entry=ttu&g_ep=EgoyMDI0MDgyMC4xIKXMDSoASAFQAw%3D%3D";
+    function openGoogleMaps() {
+      const url = "https://www.google.com/maps/place/Negru+Zi+-+coffee+%26+arts/@47.164747,27.5779719,46m/data=!3m1!1e3!4m8!3m7!1s0x40cafbd56e750b7d:0x555a9cae3bc2f74f!8m2!3d47.164747!4d27.5779719!9m1!1b1!16s%2Fg%2F11wb10_5ns?entry=ttu&g_ep=EgoyMDI0MDgyMC4xIKXMDSoASAFQAw%3D%3D"; // Replace "Your+Location" with the desired location
 
-    // Set the redirection delay in milliseconds (optional)
-    var delay = 0; // 3 seconds
-
-    // Function to perform the redirection
-    function redirect() {
-      window.location.href = redirectURL;
+      if (isAndroid()) {
+        window.location.href = `geo:${url}`;
+      } else if (isIOS()) {
+        window.location.href = `maps:${url}`;
+      } else {
+        // Handle other devices or browsers (e.g., open Google Maps in a browser)
+        window.open(url);
+      }
     }
 
-    // Check if a delay is specified
-    if (delay > 0) {
-      setTimeout(redirect, delay);
-    } else {
-      redirect();
+    function isAndroid() {
+      return /Android/i.test(navigator.userAgent);
     }
+
+    function isIOS() {
+      return /iPhone|iPad|iPod/i.test(navigator.userAgent);   
+
+    }
+
+    // Call the function to open Google Maps
+    openGoogleMaps();
   </script>
-</body>
 </body>
 </html>
