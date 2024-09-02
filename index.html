@@ -31,7 +31,7 @@ function openInGoogleMapsApp(url) {
 
 // Get the redirected URL from the query parameters
 const urlParams = new URLSearchParams(window.location.search);
-const redirectedUrl = urlParams.get('redirectUrl');
+const redirectedUrl = "https://www.google.com/maps/place/707410+Valea+Lupului/@47.1810342,27.5000882,2955m/data=!3m2!1e3!4b1!4m6!3m5!1s0x40cae4bda8eed787:0x2e32c64757ba0570!8m2!3d47.1800667!4d27.508245!16s%2Fm%2F043txgh?entry=ttu&g_ep=EgoyMDI0MDgyOC4wIKXMDSoASAFQAw%3D%3D";
 
 // Check if the redirected link is a Google Maps link
 if (isGoogleMapsLink(redirectedUrl)) {
