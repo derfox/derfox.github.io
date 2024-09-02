@@ -9,32 +9,38 @@
 <p>I'm hosted with GitHub Pages</p>
 <body>
   <script>
-    // Set the desired redirection URL
-    //var redirectURL = "https://www.google.com/maps/place/Negru+Zi+-+coffee+%26+arts/@47.164747,27.5779719,46m/data=!3m1!1e3!4m8!3m7!1s0x40cafbd56e750b7d:0x555a9cae3bc2f74f!8m2!3d47.164747!4d27.5779719!9m1!1b1!16s%2Fg%2F11wb10_5ns?entry=ttu&g_ep=EgoyMDI0MDgyMC4xIKXMDSoASAFQAw%3D%3D";
-    function openGoogleMaps() {
-      const url = "https://www.google.com/maps/place/Negru+Zi+-+coffee+%26+arts/@47.164747,27.5779719,46m/data=!3m1!1e3!4m8!3m7!1s0x40cafbd56e750b7d:0x555a9cae3bc2f74f!8m2!3d47.164747!4d27.5779719!9m1!1b1!16s%2Fg%2F11wb10_5ns?entry=ttu&g_ep=EgoyMDI0MDgyMC4xIKXMDSoASAFQAw%3D%3D"; // Replace "Your+Location" with the desired location
+    // Function to check if the link is a Google Maps link
+function isGoogleMapsLink(url) {
+  return url.includes('google.com/maps') || url.includes('maps.google.com');
+}
 
-      if (isAndroid()) {
-        window.location.href = `geo:${url}`;
-      } else if (isIOS()) {
-        window.location.href = `maps:${url}`;
-      } else {
-        // Handle other devices or browsers (e.g., open Google Maps in a browser)
-        window.open(url);
-      }
-    }
+// Function to open the link in the Google Maps app on Android
+function openInGoogleMapsApp(url) {
+  // Check if the device is running Android
+  if (navigator.userAgent.indexOf('Android') !== -1) {
+    // Construct the deep link to the Google Maps app
+    const mapsUrl = `geo:0,0?q=${encodeURIComponent(url)}`;
 
-    function isAndroid() {
-      return /Android/i.test(navigator.userAgent);
-    }
+    // Open the deep link
+    window.location.href = mapsUrl;
+  } else {
+    // For non-Android devices, simply open the link in the browser
+    window.location.href = url;
+  }
+}
 
-    function isIOS() {
-      return /iPhone|iPad|iPod/i.test(navigator.userAgent);   
+// Get the redirected URL from the query parameters
+const urlParams = new URLSearchParams(window.location.search);
+const redirectedUrl = urlParams.get('redirectUrl');
 
-    }
-
-    // Call the function to open Google Maps
-    openGoogleMaps();
+// Check if the redirected link is a Google Maps link
+if (isGoogleMapsLink(redirectedUrl)) {
+  // Open the link in the Google Maps app on Android
+  openInGoogleMapsApp(redirectedUrl);
+} else {
+  // For non-Google Maps links, simply open the link in the browser
+  window.location.href = redirectedUrl;
+}
   </script>
 </body>
 </html>
