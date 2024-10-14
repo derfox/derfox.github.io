@@ -1,29 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Redirect Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume PDF Viewer with Download</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        #pdf-container {
+            width: 100%;
+            height: calc(100vh - 50px); /* Adjust for button height */
+        }
+        #download-button {
+            display: block;
+            width: 200px;
+            height: 40px;
+            margin: 5px auto;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        #download-button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-  <script>
-    // Set the Google Maps location URL
-    var mapUrl = "https://maps.google.com/maps?q=37.7749,-122.4194"; // Replace with your desired location
+    <div id="pdf-container"></div>
+    <a id="download-button" href="#" download>Download PDF</a>
 
-    // Check if the link is opened in an Android device
-    function isAndroid() {
-      return /Android/i.test(navigator.userAgent);
-    }
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // PDF file URL - replace with your actual PDF file path
+            const pdfUrl = 'resume_010.pdf';
 
-    // Open the Google Maps app if the link is opened in an Android device
-    function openMapsApp() {
-      if (isAndroid()) {
-        window.location.href = "geo:0,0?q=" + encodeURIComponent(mapUrl);
-      } else {
-        window.location.href = mapUrl;
-      }
-    }
+            // Get the container
+            const container = document.getElementById('pdf-container');
 
-    // Call the openMapsApp function after a short delay
-    setTimeout(openMapsApp, 100);
-  </script>
+            // Create iframe element
+            const iframe = document.createElement('iframe');
+            iframe.src = pdfUrl;
+            iframe.width = '100%';
+            iframe.height = '100%';
+            iframe.style.border = 'none';
+
+            // Append iframe to container
+            container.appendChild(iframe);
+
+            // Set up download button
+            const downloadButton = document.getElementById('download-button');
+            downloadButton.href = pdfUrl;
+
+            // Fallback for browsers that don't support iframe
+            iframe.onerror = function() {
+                container.innerHTML = `
+                    <p>It appears your browser doesn't support embedded PDFs. 
+                    You can use the download button below to access the PDF.</p>
+                `;
+            };
+        });
+    </script>
 </body>
 </html>
