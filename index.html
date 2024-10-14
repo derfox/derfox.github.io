@@ -2,15 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">   
-
-    <title>Resume PDF   
- Viewer with Download</title>
-    <script src="https://mozilla.github.io/pdf.js/build/pdf.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume PDF Viewer with Download</title>
     <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
         #pdf-container {
             width: 100%;
-            height: calc(100vh - 50px);
+            height: calc(100vh - 50px); /* Adjust for button height */
         }
         #download-button {
             display: block;
@@ -35,25 +38,34 @@
     <a id="download-button" href="#" download>Download PDF</a>
 
     <script>
-        const pdfUrl = 'FlorentinaZosineanu_CV.pdf'; // Replace with your actual PDF URL
+        document.addEventListener('DOMContentLoaded', function() {
+            // PDF file URL - replace with your actual PDF file path
+            const pdfUrl = 'FlorentinaZosineanu_CV.pdf';
 
-        // Load the PDF using PDF.js
-        PDFJS.getDocument(pdfUrl).then(pdfDoc => {
-            pdfDoc.getPage(1).then(pdfPage => {
-                const canvas = document.getElementById('pdf-container');
-                const ctx = canvas.getContext('2d');
-                const viewport = pdfPage.getViewport(1.0); // Adjust the scale as needed
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
-                pdfPage.render({ canvasContext: ctx, viewport: viewport }).promise.then(() => {
-                    // PDF rendering complete
-                    const downloadButton = document.getElementById('download-button');
-                    downloadButton.href = pdfUrl;
-                });
-            });
-        }).catch(error => {
-            console.error('Error loading PDF:', error);
-            // Handle errors gracefully, e.g., show an error message to the user
+            // Get the container
+            const container = document.getElementById('pdf-container');
+
+            // Create iframe element
+            const iframe = document.createElement('iframe');
+            iframe.src = pdfUrl;
+            iframe.width = '100%';
+            iframe.height = '100%';
+            iframe.style.border = 'none';
+
+            // Append iframe to container
+            container.appendChild(iframe);
+
+            // Set up download button
+            const downloadButton = document.getElementById('download-button');
+            downloadButton.href = pdfUrl;
+
+            // Fallback for browsers that don't support iframe
+            iframe.onerror = function() {
+                container.innerHTML = `
+                    <p>It appears your browser doesn't support embedded PDFs. 
+                    You can use the download button below to access the PDF.</p>
+                `;
+            };
         });
     </script>
 </body>
